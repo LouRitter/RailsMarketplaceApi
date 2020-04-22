@@ -50,4 +50,18 @@ class Api::V1::ProductsControllerTest < ActionDispatch::IntegrationTest
     assert_response :forbidden
   end
 
+  test "should delete product" do 
+    assert_difference('Product.count', -1) do
+      delete api_v1_product_url(@product), headers: { Authorization: JsonWebToken.encode(user_id: @product.user_id)}, as: :json
+    end
+    assert_response :no_content
+  end
+
+  test "should forbid delete product" do
+    assert_no_difference('Product.count') do 
+      delete api_v1_product_url(@product), as: :json
+    end
+    assert_response :forbidden
+  end
+
 end
