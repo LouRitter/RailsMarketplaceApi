@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :tokens, only: [:create]
 
-      resources :users, only: %i[show create update destroy]
+      resources :users, only: %i[show index create update destroy]
 
       resources :products, only: %i[show index create update destroy]
     end

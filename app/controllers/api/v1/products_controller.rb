@@ -2,9 +2,11 @@ class Api::V1::ProductsController < ApplicationController
    before_action :check_login, only: %i[create]
    before_action :set_product, only: %i[show update destroy]
    before_action :check_owner, only: %i[update destroy]
-    def show
-        render json: ProductSerializer.new(@product).serializable_hash
-    end
+
+  def show
+    options = { include: [:user] }
+    render json: ProductSerializer.new(@product, options).serializable_hash
+  end 
 
     def index
         @products = Product.all
@@ -32,6 +34,7 @@ class Api::V1::ProductsController < ApplicationController
         @product.destroy
         head 204
     end
+
     private 
 
     def check_owner 

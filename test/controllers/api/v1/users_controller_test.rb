@@ -4,6 +4,10 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
   setup do 
     @user = users(:one)
   end
+  test "should show user list" do 
+    get api_v1_users_url(), as: :json
+    assert_response :success
+  end 
 
   test "should show user" do 
     get api_v1_user_url(@user), as: :json
