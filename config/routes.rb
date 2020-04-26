@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   #API def
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :orders, only: [:index]
+      resources :orders, only: %i[index show]
 
       resources :tokens, only: [:create]
 
