@@ -6,7 +6,14 @@ class OrderTest < ActiveSupport::TestCase
     @product1 = products(:one)
     @product2 = products(:two)
   end
- test 'builds 2 placements for the order' do
+
+  test "an order should command not too much product than available" do
+    @order.placements << Placement.new(product_id: @product1.id, quantity: (1 + @product1.quantity))
+
+    assert_not @order.valid?
+  end
+  
+  test 'builds 2 placements for the order' do
     @order.build_placements_with_product_ids_and_quantities [
       { product_id: @product1.id, quantity: 2 },
       { product_id: @product2.id, quantity: 3 },
@@ -16,7 +23,7 @@ class OrderTest < ActiveSupport::TestCase
       @order.save
     end
   end
-  
+
   test "should set total" do
     order = Order.new user_id: @order.user_id
     order.products << products(:one)
