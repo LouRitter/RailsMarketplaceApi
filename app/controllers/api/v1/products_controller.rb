@@ -10,7 +10,7 @@ class Api::V1::ProductsController < ApplicationController
   end 
 
     def index
-        @products = Product.page(current_page)
+        @products = Product.includes(:user).page(current_page)
         .per(per_page)
         .search(params)
         options = {
@@ -21,6 +21,7 @@ class Api::V1::ProductsController < ApplicationController
                 next: api_v1_products_path(page: @products.next_page),
             }
         }
+        options[:include] = [:user]
         render json: ProductSerializer.new(@products, options).serializable_hash
 
     end
